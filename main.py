@@ -1,14 +1,9 @@
-from lib2to3.fixes.fix_input import context
-from threading import main_thread
-import os
-
-
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QMainWindow
-
-
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 from ui import Ui_MainWindow
-import sys
+from PIL import Image, ImageEnhance
+import os
 
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self):
@@ -17,36 +12,121 @@ class MainApp(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         self.image_folder = None
+        self.current_image_path = None  # Шлях до вибраного зображення
+        self.image = None  # Об'єкт PIL.Image
 
         self.ui.pushButton.clicked.connect(self.load_images)
+        self.ui.listView.clicked.connect(self.load_selected_image)
+        self.ui.pushButton_2.clicked.connect(self.rotate_left)
+        self.ui.pushButton_3.clicked.connect(self.rotate_right)
+        self.ui.pushButton_4.clicked.connect(self.mirror_image)
+        self.ui.pushButton_5.clicked.connect(self.sharpen_image)
+        self.ui.pushButton_6.clicked.connect(self.to_grayscale)
+        self.ui.pushButton_7.clicked.connect(self.adjust_color)
 
         # Налаштування моделі для QListView
         self.model = QtGui.QStandardItemModel()
         self.ui.listView.setModel(self.model)
 
     def load_images(self):
-        # Відкрити діалог для вибору папки
         folder = QtWidgets.QFileDialog.getExistingDirectory(self, "Виберіть папку з фотографіями")
 
-        if folder:  # Якщо вибрано папку
+        if folder:
             self.image_folder = folder
             self.display_images()
+    def display_image(self):
+        if self.image:
+            try:
+                # Конвертація PIL.Image у QPixmap через QImage
+                image_data = self.image.convert("RGBA")
+                data = image_data.tobytes("raw", "RGBA")
+                qimage = QtGui.QImage(data, image_data.width, image_data.height, QtGui.QImage.Format_RGBA8888)
+                pixmap = QPixmap.fromImage(qimage)
 
-    def display_images(self):
-        # Очищення списку
-        self.model.clear()
+                # Обмеження розмірів зображення до розмірів головного вікна
+                max_width = self.width() - 300
+                max_height = self.height() - 100
+                pixmap = pixmap.scaled(max_width, max_height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
 
-        # Допустимі формати зображень
-        valid_extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.gif']
+                # Створення QLabel, якщо ще не створено
+                if not hasattr(self, "image_label"):
+                    self.image_label = QtWidgets.QLabel(self.ui.widget)
+                    self.image_label.setAlignment(Qt.AlignCenter)
+                    self.image_label.setScaledContents(False)
 
-        for file_name in os.listdir(self.image_folder):
-            if any(file_name.lower().endswith(ext) for ext in valid_extensions):
-                # Додати зображення до моделі QListView
-                item = QtGui.QStandardItem(file_name)
-                item.setEditable(False)
-                self.model.appendRow(item)
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    mainWindows = MainApp()
-    mainWindows.show()
-    sys.exit(app.exec_())
+                # Встановлюємо відмасштабоване зображення
+                self.image_label.setPixmap(pixmap)
+
+                # Центруємо зображення у віджеті та масштабуємо QLabel під розміри зображення
+                self.ui.widget.setFixedSize(pixmap.width(), pixmap.height())
+                self.image_label.setGeometry(80, 40, pixmap.width(), pixmap.height())
+                self.image_label.show()
+
+            except Exception as e:
+                print(f"Error displaying image: {e}")
+
+    def load_selected_image(self, index):
+        file_name = self.model.itemFromIndex(index).text()
+        self.current_image_path = os.path.join(self.image_folder, file_name)
+        self.image = Image.open(self.current_image_path)
+        self.display_image()
+
+    def display_image(self):
+        if self.image:
+            # Конвертувати зображення в QPixmap для відображення
+            qimage = QPixmap(self.current_image_path)
+            self.ui.widget.setFixedSize(qimage.width(), qimage.height())
+            label = QtWidgets.QLabel(self.ui.widget)
+            label.setPixmap(qimage)
+            label.setAlignment(Qt.AlignCenter)
+            if __name__ == '__main__':
+                import sys
+
+                app = QtWidgets.QApplication(sys.argv)
+                mainWindow = MainApp()
+                mainWindow.show()
+                sys.exit(app.exec_())
+
+                #pip install pillow
+
+    def save_image(self):
+        if self.image and self.current_image_path:
+            self.image.save(self.current_image_path)
+
+    def rotate_left(self):
+        if self.image:
+            self.image = self.image.rotate(90, expand=True)
+            self.display_image()
+            self.save_image()
+
+    def rotate_right(self):
+        if self.image:
+            self.image = self.image.rotate(-90, expand=True)
+            self.display_image()
+            self.save_image()
+
+    def miror_image(self):
+        if self.image:
+            self.image = self.image.transpose(Image. FLIP_LEFT_RIGHT)
+            self.display_image()
+            self.save_image()
+
+
+    def sharpen_image(self):
+        if self.image:
+            enhancer = ImageEnhance.Sharpness(self.image)
+            self.display_image()
+            self.save_image()
+
+    def to_grayscale(self):
+        if self.image:
+            self.image = self.image.convert("L")
+            self.display_image()
+            self.save_image()
+
+    def abjust_color(self):
+        if self.image:
+            enhancer = ImageEnhance.Color(self.image)
+            self.image = enhancer.enbance(1.5)
+            self.display_image()
+            self.save_image()
