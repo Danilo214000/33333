@@ -9,42 +9,126 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(10, 10, 160, 50))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius:10px;
+            border: 4px outset #006400;
+        }
+        """)
+
         self.listView = QtWidgets.QListView(self.centralwidget)
         self.listView.setGeometry(QtCore.QRect(10, 75, 160, 590))
         self.listView.setObjectName("listView")
+
+        
         self.widget = QtWidgets.QWidget(self.centralwidget)
         self.widget.setGeometry(QtCore.QRect(110, 10, 281, 341))
         self.widget.setObjectName("widget")
+        
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(770, 10, 110, 41))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius:10px;
+            border: 2px solid #006400;
+        }
+        """)
+
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(770, 60, 110, 41))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+
+        
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(770, 110, 110, 41))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setGeometry(QtCore.QRect(770, 160, 110, 41))
         self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_5.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+        
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(770, 210, 110, 41))
         self.pushButton_6.setObjectName("pushButton_6")
+        self.pushButton_6.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+        
         self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_7.setGeometry(QtCore.QRect(770, 260, 110, 41))
         self.pushButton_7.setObjectName("pushButton_7")
+        self.pushButton_7.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+
+        self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_8.setGeometry(QtCore.QRect(770, 310, 110, 41))
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.pushButton_8.setStyleSheet("""
+        QPushButton {        
+            background-color: #90EE90;
+            color: black;
+            border-radius: 10px;
+            border: 2px solid #006400;
+        }
+        """)
+
+
+
+
+        
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(765, 310, 120, 20))
+        self.label.setGeometry(QtCore.QRect(765, 350, 120, 20))
         self.label.setObjectName("label")
+        
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(390, 340, 35, 10))
+        self.label_2.setGeometry(QtCore.QRect(390, 390, 35, 10))
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(725, 330, 180, 16))
+        self.label_3.setGeometry(QtCore.QRect(725, 375, 180, 16))
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(775, 350, 180, 20))
+        self.label_4.setGeometry(QtCore.QRect(775, 395, 180, 20))
         self.label_4.setObjectName("label_4")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -68,8 +152,9 @@ class Ui_MainWindow(object):
         self.pushButton_5.setText(_translate("MainWindow", "Різкість"))
         self.pushButton_6.setText(_translate("MainWindow", "Ч/Б"))
         self.pushButton_7.setText(_translate("MainWindow", "Колір"))
+        self.pushButton_8.setText(_translate("MainWindow", "Размітіє"))
         self.label.setText(_translate("MainWindow", "ФатаЖопа3000"))
-        self.label_3.setText(_translate("MainWindow", "Нету лучше мкжчины!"))
+        self.label_3.setText(_translate("MainWindow", "Нету лучше мужчины!"))
         self.label_4.setText(_translate("MainWindow", "Чем Фурри!"))
 
 
